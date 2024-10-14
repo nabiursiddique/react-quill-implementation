@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const toolbarOptions = [
+  ['bold', 'italic', 'underline', 'strike'],
+  ['blockquote', 'code-block'],
+  ['link', 'image', 'video', 'formula'],
+
+  [{ 'header': 1 }, { 'header': 2 }],
+  [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+  [{ 'script': 'sub' }, { 'script': 'super' }],
+  [{ 'indent': '-1' }, { 'indent': '+1' }],
+  [{ 'direction': 'rtl' }],
+
+  [{ 'size': ['small', false, 'large', 'huge'] }],
+  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+  [{ 'color': [] }, { 'background': [] }],
+  [{ 'font': [] }],
+  [{ 'align': [] }],
+
+  ['clean']
+];
+
+const modules = {
+  toolbar: toolbarOptions
+}
+
+const App = () => {
+  const [value, setValue] = useState('');
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h1 className="text-3xl text-center font-bold my-5">
+        React Quill Implementation
+      </h1>
+
+      <div className="flex justify-evenly mx-5 mt-8">
+        {/* Editor */}
+        <div className=" w-full h-screen">
+          <h1 className="text-xl text-center font-bold mb-3">Editor</h1>
+          <div className='mr-5'>
+            <ReactQuill
+              className='h-[60vh]'
+              theme="snow"
+              value={value}
+              onChange={setValue}
+              modules={modules}
+            />
+          </div>
+        </div>
+
+        {/* Preview */}
+        <div className="h-screen w-full border-l-2 border-black">
+          <h1 className="text-xl text-center font-bold mb-3">Preview</h1>
+          <div
+            className="ql-editor p-4" // Add ql-editor class for proper Quill styling
+            dangerouslySetInnerHTML={{ __html: value }}
+          />
+        </div>
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
-export default App
+export default App;
